@@ -7,6 +7,7 @@ import SendIcon from "@mui/icons-material/Send";
 import ServiceUI from "./services/Services";
 import axios from "axios";
 import CircularProgress from "@mui/material/CircularProgress";
+import ResponseUI from "./Response";
 
 export default function Layout() {
   const [loading, setLoading] = React.useState(false);
@@ -14,7 +15,33 @@ export default function Layout() {
   const [url, setUrl] = React.useState("");
   const [params, setParams] = React.useState({});
 
+  const [response, setResponse] = React.useState(false);
   const [rows, setRows] = React.useState([]);
+
+  const requestTheAddress = async () => {
+    try {
+      setLoading(true);
+      await axios({
+        method: method,
+        url: url,
+        data: {},
+      })
+        .then((u) => {
+          console.log("the response");
+          console.log(u);
+        })
+        .catch((err) => {
+          console.log("error happened");
+          console.log(err.message);
+        });
+    } catch (err) {
+      console.log("something went wrong");
+      console.log(err);
+    } finally {
+      setLoading(false);
+      setResponse(true);
+    }
+  };
 
   const paramsHandler = (type, payload) => {
     if (type == "key" || type == "value" || type == "description") {
@@ -89,31 +116,6 @@ export default function Layout() {
     console.log(params);
   };
 
-  const requestTheAddress = async () => {
-    try {
-      setLoading(true);
-      await axios({
-        method: method,
-        url: url,
-        data: {},
-      })
-        .then((u) => {
-          alert("here");
-          console.log("the response");
-          console.log(u);
-        })
-        .catch((err) => {
-          console.log("error happened");
-          console.log(err);
-        });
-    } catch (err) {
-      console.log("something went wrong");
-      console.log(err);
-    } finally {
-      setLoading(false);
-    }
-  };
-
   return (
     <div>
       <h1
@@ -125,8 +127,7 @@ export default function Layout() {
       >
         Postman Lite
       </h1>
-      <br />
-      <br />
+
       <div style={{ display: "flex", justifyContent: "center" }}>
         <div style={{ marginTop: "-8px" }}>
           <MethodsUI method={method} setMethod={setMethod} />
@@ -162,6 +163,8 @@ export default function Layout() {
       <div style={{ display: "flex", justifyContent: "center" }}>
         <ServiceUI rows={rows} paramsHandler={paramsHandler} />
       </div>
+
+      <ResponseUI response={response} setResponse={setResponse} />
     </div>
   );
 }

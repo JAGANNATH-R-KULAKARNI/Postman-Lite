@@ -22,6 +22,7 @@ export default function SelectLabels(props) {
           <MenuItem value="get">Get</MenuItem>
           <MenuItem value="post">Post</MenuItem>
           <MenuItem value="put">Put</MenuItem>
+          <MenuItem value="patch">Patch</MenuItem>
           <MenuItem value="delete">Delete</MenuItem>
         </Select>
       </FormControl>
