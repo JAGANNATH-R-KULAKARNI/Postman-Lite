@@ -12,6 +12,82 @@ export default function Layout() {
   const [loading, setLoading] = React.useState(false);
   const [method, setMethod] = React.useState("get");
   const [url, setUrl] = React.useState("");
+  const [params, setParams] = React.useState({});
+
+  const [rows, setRows] = React.useState([]);
+
+  const paramsHandler = (type, payload) => {
+    if (type == "key" || type == "value" || type == "description") {
+      const temp = rows.map((item, index) => {
+        if (index == payload[0]) {
+          return {
+            ...item,
+            [type]: payload[1],
+          };
+        }
+
+        return item;
+      });
+
+      const refe2 = {};
+
+      temp.map((item) => {
+        if (item["selected"]) refe2[item["key"].trim()] = item["value"].trim();
+      });
+
+      setParams(refe2);
+      setRows(temp);
+    } else if (type == "checkbox") {
+      const temp = rows.map((item, index) => {
+        if (index == payload[0]) {
+          return {
+            ...item,
+            selected: !item["selected"],
+          };
+        }
+
+        return item;
+      });
+
+      const refe2 = {};
+
+      temp.map((item) => {
+        if (item["selected"]) refe2[item["key"].trim()] = item["value"].trim();
+      });
+
+      setParams(refe2);
+      setRows(temp);
+    } else if (type == "delete") {
+      const temp = [];
+
+      for (var i = 0; i < rows.length; i++) {
+        if (i == payload[0]) continue;
+        temp.push(rows[i]);
+      }
+
+      const refe2 = {};
+
+      temp.map((item) => {
+        if (item["selected"]) refe2[item["key"].trim()] = item["value"].trim();
+      });
+
+      setParams(refe2);
+      setRows(temp);
+    } else {
+      const temp = rows;
+      temp.push({
+        selected: true,
+        key: "",
+        value: "",
+        description: "",
+      });
+
+      setRows(temp);
+    }
+
+    console.log("in params handler");
+    console.log(params);
+  };
 
   const requestTheAddress = async () => {
     try {
@@ -19,6 +95,7 @@ export default function Layout() {
       await axios({
         method: method,
         url: url,
+        data: {},
       })
         .then((u) => {
           alert("here");
@@ -36,9 +113,18 @@ export default function Layout() {
       setLoading(false);
     }
   };
+
   return (
     <div>
-      <h1 style={{ textAlign: "center", fontSize: "70px" }}>Postman Lite</h1>
+      <h1
+        style={{
+          textAlign: "center",
+          fontSize: "70px",
+          color: "#1976D2",
+        }}
+      >
+        Postman Lite
+      </h1>
       <br />
       <br />
       <div style={{ display: "flex", justifyContent: "center" }}>
@@ -74,7 +160,7 @@ export default function Layout() {
       <br />
       <br />
       <div style={{ display: "flex", justifyContent: "center" }}>
-        <ServiceUI />
+        <ServiceUI rows={rows} paramsHandler={paramsHandler} />
       </div>
     </div>
   );

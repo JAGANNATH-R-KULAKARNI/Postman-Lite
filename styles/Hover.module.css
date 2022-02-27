@@ -1,0 +1,7 @@
+.hovering {
+}
+
+.hovering:hover {
+  cursor: pointer;
+  zoom: 1.02;
+}

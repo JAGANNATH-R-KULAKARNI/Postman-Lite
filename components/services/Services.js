@@ -4,6 +4,7 @@ import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
+import ParamsUI from "./Params";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -38,9 +39,14 @@ function a11yProps(index) {
   };
 }
 
-export default function VerticalTabs() {
+export default function Services(props) {
   const [value, setValue] = React.useState(0);
+  const [status, setStatus] = React.useState(false);
 
+  const handleStatusParams = (type, payload) => {
+    setStatus(!status);
+    props.paramsHandler(type, payload);
+  };
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
@@ -72,7 +78,13 @@ export default function VerticalTabs() {
           <Tab label="Cookies" {...a11yProps(5)} />
         </Tabs>
         <TabPanel value={value} index={0}>
-          Params
+          <div style={{ marginTop: "-25px" }}>
+            {status ? (
+              <ParamsUI rows={props.rows} paramsHandler={handleStatusParams} />
+            ) : (
+              <ParamsUI rows={props.rows} paramsHandler={handleStatusParams} />
+            )}
+          </div>
         </TabPanel>
         <TabPanel value={value} index={1}>
           Authorization
