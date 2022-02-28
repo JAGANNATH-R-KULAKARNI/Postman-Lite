@@ -8,51 +8,9 @@ import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import TextField from "@mui/material/TextField";
 
-export default function Authorization() {
+export default function Authorization(props) {
   const [type, setType] = React.useState("");
   const [desc, setDesc] = React.useState("Select a Type");
-
-  function BasicAuth() {
-    return (
-      <div style={{ paddingTop: "50px" }}>
-        <TextField
-          id="outlined-basic"
-          label="Username"
-          variant="outlined"
-          type="name"
-        />
-        <br />
-        <br />
-        <TextField
-          id="outlined-basic"
-          label="Password"
-          variant="outlined"
-          type="password"
-        />
-      </div>
-    );
-  }
-
-  function BearerToken() {
-    return (
-      <div style={{ paddingTop: "90px" }}>
-        <TextField
-          id="outlined-basic"
-          label="Bearer Token"
-          variant="outlined"
-          type="token"
-        />
-      </div>
-    );
-  }
-
-  function NoAuth() {
-    return (
-      <div style={{ paddingTop: "80px" }}>
-        <h3>This request does not use any authorization.</h3>
-      </div>
-    );
-  }
 
   return (
     <div style={{ marginTop: "-20px" }}>
@@ -88,6 +46,15 @@ export default function Authorization() {
                       "The authorization header will be automatically generated when you send the request. "
                     );
                   else setDesc("This request does not use any authorization.");
+
+                  props.authHandler(
+                    temp == 10
+                      ? "basicAuth"
+                      : temp == 20
+                      ? "bearerAuth"
+                      : "noAuth",
+                    temp == 10 ? ["", ""] : temp == 20 ? props.token : "dummy"
+                  );
                 }}
               >
                 <MenuItem value={10}>Basic Auth</MenuItem>
@@ -121,11 +88,61 @@ export default function Authorization() {
             }}
           >
             {type == 10 ? (
-              <BasicAuth />
+              <div style={{ paddingTop: "50px" }}>
+                <TextField
+                  id="auth-basic-auth-username"
+                  label="Username"
+                  variant="outlined"
+                  type="name"
+                  value={
+                    props.auth["username"] == "undefined"
+                      ? ""
+                      : props.auth["username"]
+                  }
+                  onChange={(e) => {
+                    props.authHandler("basicAuth", [
+                      e.target.value,
+                      props.auth["password"],
+                    ]);
+                  }}
+                />
+                <br />
+                <br />
+                <TextField
+                  id="auth-basic-auth-password"
+                  label="Password"
+                  variant="outlined"
+                  type="password"
+                  value={
+                    props.auth["password"] == "undefined"
+                      ? ""
+                      : props.auth["password"]
+                  }
+                  onChange={(e) => {
+                    props.authHandler("basicAuth", [
+                      props.auth["username"],
+                      e.target.value,
+                    ]);
+                  }}
+                />
+              </div>
             ) : type == 20 ? (
-              <BearerToken />
+              <div style={{ paddingTop: "90px" }}>
+                <TextField
+                  id="auth-bearer-token-token"
+                  label="Bearer Token"
+                  variant="outlined"
+                  type="token"
+                  value={props.token}
+                  onChange={(e) => {
+                    props.authHandler("bearerAuth", e.target.value);
+                  }}
+                />
+              </div>
             ) : (
-              <NoAuth />
+              <div style={{ paddingTop: "80px" }}>
+                <h3>This request does not use any authorization.</h3>
+              </div>
             )}
           </div>
         </div>

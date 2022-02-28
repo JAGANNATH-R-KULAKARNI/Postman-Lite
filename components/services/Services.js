@@ -110,11 +110,24 @@ export default function Services(props) {
         </TabPanel>
         <TabPanel value={value} index={1}>
           <div style={{ marginTop: "-25px", minWidth: "840px" }}>
-            {statusA ? (
-              <AuthorizationUI authHandler={handleStatusAuthorization} />
+            {/* {statusA ? (
+              <AuthorizationUI
+                authHandler={handleStatusAuthorization}
+                auth={props.auth}
+                headers={props.headers}
+              />
             ) : (
-              <AuthorizationUI authHandler={handleStatusAuthorization} />
-            )}
+              <AuthorizationUI
+                authHandler={handleStatusAuthorization}
+                auth={props.auth}
+                headers={props.headers}
+              />
+            )} */}
+            <AuthorizationUI
+              authHandler={handleStatusAuthorization}
+              auth={props.auth}
+              token={props.token}
+            />
           </div>
         </TabPanel>
         <TabPanel value={value} index={2}>

@@ -23,6 +23,8 @@ export default function Layout() {
   const [tout, setTout] = React.useState(10000);
   const [data, setData] = React.useState({});
   const [headers, setHeaders] = React.useState({});
+  const [auth, setAuth] = React.useState({});
+  const [token, setToken] = React.useState(null);
 
   const [response, setResponse] = React.useState(false);
   const [rows, setRows] = React.useState([]);
@@ -314,6 +316,47 @@ export default function Layout() {
     console.log(headers);
   };
 
+  const authHandler = (type, payload) => {
+    console.log("auth handler");
+    console.log(payload);
+    if (type == "basicAuth") {
+      const temp = headers;
+      delete temp["Authorization"];
+
+      setHeaders(temp);
+      setToken("");
+
+      setAuth({
+        username: payload[0],
+        password: payload[1],
+      });
+
+      console.log("basic auth");
+      console.log(auth);
+      console.log(headers);
+    } else if (type == "bearerAuth") {
+      setToken(payload);
+      setAuth({});
+
+      setHeaders({
+        ...headers,
+        Authorization: `Bearer ${payload}`,
+      });
+      console.log("bearer auth");
+      console.log(auth);
+      console.log(headers);
+    } else {
+      const temp = headers;
+      delete temp["Authorization"];
+
+      setHeaders(temp);
+      setAuth({});
+      setToken("");
+      console.log("no auth");
+      console.log(auth);
+      console.log(headers);
+    }
+  };
   const timeOutHandler = (event) => {
     if (tout <= 0) {
       alert("Timeout should be greater than 0");
@@ -427,6 +470,9 @@ export default function Layout() {
           dataHandler={dataHandler}
           rowsH={rowsH}
           headersHandler={headersHandler}
+          auth={auth}
+          token={token}
+          authHandler={authHandler}
         />
       </div>
 
