@@ -81,7 +81,7 @@ const EnhancedTableToolbar = (props) => {
         id="tableTitle"
         component="div"
       >
-        Query Parameters
+        Body
       </Typography>
     </Toolbar>
   );
@@ -91,7 +91,7 @@ EnhancedTableToolbar.propTypes = {
   numSelected: PropTypes.number.isRequired,
 };
 
-export default function Params(props) {
+export default function Data(props) {
   const [selected, setSelected] = React.useState([]);
   const [page, setPage] = React.useState(0);
   const [dense, setDense] = React.useState(true);
@@ -139,7 +139,7 @@ export default function Params(props) {
                             "aria-labelledby": labelId,
                           }}
                           onClick={() =>
-                            props.paramsHandler("checkbox", [index, "dummy"])
+                            props.dataHandler("checkbox", [index, "dummy"])
                           }
                         />
                       </TableCell>
@@ -155,7 +155,7 @@ export default function Params(props) {
                           size="small"
                           value={row["key"]}
                           onChange={(e) =>
-                            props.paramsHandler("key", [index, e.target.value])
+                            props.dataHandler("key", [index, e.target.value])
                           }
                         />
                       </TableCell>
@@ -167,10 +167,7 @@ export default function Params(props) {
                           size="small"
                           value={row["value"]}
                           onChange={(e) =>
-                            props.paramsHandler("value", [
-                              index,
-                              e.target.value,
-                            ])
+                            props.dataHandler("value", [index, e.target.value])
                           }
                         />
                       </TableCell>
@@ -182,7 +179,7 @@ export default function Params(props) {
                           size="small"
                           value={row["description"]}
                           onChange={(e) =>
-                            props.paramsHandler("description", [
+                            props.dataHandler("description", [
                               index,
                               e.target.value,
                             ])
@@ -193,7 +190,7 @@ export default function Params(props) {
                         <div
                           className={styles.hovering}
                           onClick={() =>
-                            props.paramsHandler("delete", [index, "dummy"])
+                            props.dataHandler("delete", [index, "dummy"])
                           }
                         >
                           <CloseIcon />
@@ -220,7 +217,7 @@ export default function Params(props) {
           <Fab
             color="primary"
             aria-label="add"
-            onClick={() => props.paramsHandler("add", [])}
+            onClick={() => props.dataHandler("add", [])}
           >
             <AddIcon />
           </Fab>

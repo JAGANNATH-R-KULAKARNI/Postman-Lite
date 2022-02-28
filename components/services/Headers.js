@@ -81,7 +81,7 @@ const EnhancedTableToolbar = (props) => {
         id="tableTitle"
         component="div"
       >
-        Query Parameters
+        Headers
       </Typography>
     </Toolbar>
   );
@@ -91,7 +91,7 @@ EnhancedTableToolbar.propTypes = {
   numSelected: PropTypes.number.isRequired,
 };
 
-export default function Params(props) {
+export default function Headers(props) {
   const [selected, setSelected] = React.useState([]);
   const [page, setPage] = React.useState(0);
   const [dense, setDense] = React.useState(true);
@@ -139,7 +139,7 @@ export default function Params(props) {
                             "aria-labelledby": labelId,
                           }}
                           onClick={() =>
-                            props.paramsHandler("checkbox", [index, "dummy"])
+                            props.headersHandler("checkbox", [index, "dummy"])
                           }
                         />
                       </TableCell>
@@ -155,7 +155,7 @@ export default function Params(props) {
                           size="small"
                           value={row["key"]}
                           onChange={(e) =>
-                            props.paramsHandler("key", [index, e.target.value])
+                            props.headersHandler("key", [index, e.target.value])
                           }
                         />
                       </TableCell>
@@ -167,7 +167,7 @@ export default function Params(props) {
                           size="small"
                           value={row["value"]}
                           onChange={(e) =>
-                            props.paramsHandler("value", [
+                            props.headersHandler("value", [
                               index,
                               e.target.value,
                             ])
@@ -182,7 +182,7 @@ export default function Params(props) {
                           size="small"
                           value={row["description"]}
                           onChange={(e) =>
-                            props.paramsHandler("description", [
+                            props.headersHandler("description", [
                               index,
                               e.target.value,
                             ])
@@ -193,7 +193,7 @@ export default function Params(props) {
                         <div
                           className={styles.hovering}
                           onClick={() =>
-                            props.paramsHandler("delete", [index, "dummy"])
+                            props.headersHandler("delete", [index, "dummy"])
                           }
                         >
                           <CloseIcon />
@@ -220,7 +220,7 @@ export default function Params(props) {
           <Fab
             color="primary"
             aria-label="add"
-            onClick={() => props.paramsHandler("add", [])}
+            onClick={() => props.headersHandler("add", [])}
           >
             <AddIcon />
           </Fab>

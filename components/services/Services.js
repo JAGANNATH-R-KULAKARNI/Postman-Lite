@@ -5,6 +5,9 @@ import Tab from "@mui/material/Tab";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import ParamsUI from "./Params";
+import DataUI from "./Data";
+import HeadersUI from "./Headers";
+import AuthorizationUI from "./Authorization";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -42,11 +45,30 @@ function a11yProps(index) {
 export default function Services(props) {
   const [value, setValue] = React.useState(0);
   const [status, setStatus] = React.useState(false);
+  const [statusD, setStatusD] = React.useState(false);
+  const [statusH, setStatusH] = React.useState(false);
+  const [statusA, setStatusA] = React.useState(false);
 
   const handleStatusParams = (type, payload) => {
     setStatus(!status);
     props.paramsHandler(type, payload);
   };
+
+  const handleStatusData = (type, payload) => {
+    setStatusD(!statusD);
+    props.dataHandler(type, payload);
+  };
+
+  const handleStatusHeaders = (type, payload) => {
+    setStatusH(!statusH);
+    props.headersHandler(type, payload);
+  };
+
+  const handleStatusAuthorization = (type, payload) => {
+    setStatusA(!statusA);
+    props.authHandler(type, payload);
+  };
+
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
@@ -78,7 +100,7 @@ export default function Services(props) {
           <Tab label="Cookies" {...a11yProps(5)} />
         </Tabs>
         <TabPanel value={value} index={0}>
-          <div style={{ marginTop: "-25px" }}>
+          <div style={{ marginTop: "-25px", minWidth: "840px" }}>
             {status ? (
               <ParamsUI rows={props.rows} paramsHandler={handleStatusParams} />
             ) : (
@@ -87,13 +109,37 @@ export default function Services(props) {
           </div>
         </TabPanel>
         <TabPanel value={value} index={1}>
-          Authorization
+          <div style={{ marginTop: "-25px", minWidth: "840px" }}>
+            {statusA ? (
+              <AuthorizationUI authHandler={handleStatusAuthorization} />
+            ) : (
+              <AuthorizationUI authHandler={handleStatusAuthorization} />
+            )}
+          </div>
         </TabPanel>
         <TabPanel value={value} index={2}>
-          Headers
+          <div style={{ marginTop: "-25px", minWidth: "840px" }}>
+            {statusH ? (
+              <HeadersUI
+                rows={props.rowsH}
+                headersHandler={handleStatusHeaders}
+              />
+            ) : (
+              <HeadersUI
+                rows={props.rowsH}
+                headersHandler={handleStatusHeaders}
+              />
+            )}
+          </div>
         </TabPanel>
         <TabPanel value={value} index={3}>
-          Body
+          <div style={{ marginTop: "-25px", minWidth: "840px" }}>
+            {statusD ? (
+              <DataUI rows={props.rowsD} dataHandler={handleStatusData} />
+            ) : (
+              <DataUI rows={props.rowsD} dataHandler={handleStatusData} />
+            )}
+          </div>
         </TabPanel>
         <TabPanel value={value} index={4}>
           Settings
