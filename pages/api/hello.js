@@ -1,5 +1,11 @@
-// Next.js API route support: https://nextjs.org/docs/api-routes/introduction
+import nc from "next-connect";
 
-export default function handler(req, res) {
-  res.status(200).json({ name: 'John Doe' })
-}
+const handler = nc();
+
+handler.get(async (req, res) => {
+  return res.send({
+    message: "Hi I successfully got a request :)",
+  });
+});
+
+export default handler;

@@ -8,6 +8,7 @@ import ParamsUI from "./Params";
 import DataUI from "./Data";
 import HeadersUI from "./Headers";
 import AuthorizationUI from "./Authorization";
+import SettingUI from "./Settings";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -48,6 +49,7 @@ export default function Services(props) {
   const [statusD, setStatusD] = React.useState(false);
   const [statusH, setStatusH] = React.useState(false);
   const [statusA, setStatusA] = React.useState(false);
+  const [statusS, setStatusS] = React.useState(false);
 
   const handleStatusParams = (type, payload) => {
     setStatus(!status);
@@ -67,6 +69,15 @@ export default function Services(props) {
   const handleStatusAuthorization = (type, payload) => {
     setStatusA(!statusA);
     props.authHandler(type, payload);
+  };
+
+  const handleStatusSettings = (index) => {
+    setStatusS(!statusS);
+    props.settingsHandler(index);
+  };
+  const handleStatusSettings2 = (num) => {
+    setStatusS(!statusS);
+    props.settingsHandler2(num);
   };
 
   const handleChange = (event, newValue) => {
@@ -110,19 +121,6 @@ export default function Services(props) {
         </TabPanel>
         <TabPanel value={value} index={1}>
           <div style={{ marginTop: "-25px", minWidth: "840px" }}>
-            {/* {statusA ? (
-              <AuthorizationUI
-                authHandler={handleStatusAuthorization}
-                auth={props.auth}
-                headers={props.headers}
-              />
-            ) : (
-              <AuthorizationUI
-                authHandler={handleStatusAuthorization}
-                auth={props.auth}
-                headers={props.headers}
-              />
-            )} */}
             <AuthorizationUI
               authHandler={handleStatusAuthorization}
               auth={props.auth}
@@ -155,7 +153,23 @@ export default function Services(props) {
           </div>
         </TabPanel>
         <TabPanel value={value} index={4}>
-          Settings
+          <div style={{ minWidth: "840px" }}>
+            {statusS ? (
+              <SettingUI
+                settings={props.settings}
+                settingsHandler={handleStatusSettings}
+                settingsHandler2={handleStatusSettings2}
+                maxRedirects={props.maxRedirects}
+              />
+            ) : (
+              <SettingUI
+                settings={props.settings}
+                settingsHandler={handleStatusSettings}
+                settingsHandler2={handleStatusSettings2}
+                maxRedirects={props.maxRedirects}
+              />
+            )}
+          </div>
         </TabPanel>
         <TabPanel value={value} index={5}>
           Cookies

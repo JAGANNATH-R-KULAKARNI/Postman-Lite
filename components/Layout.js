@@ -14,6 +14,7 @@ import Tooltip from "@mui/material/Tooltip";
 import Box from "@mui/material/Box";
 import Popper from "@mui/material/Popper";
 import Fade from "@mui/material/Fade";
+import https from "https";
 
 export default function Layout() {
   const [loading, setLoading] = React.useState(false);
@@ -25,6 +26,35 @@ export default function Layout() {
   const [headers, setHeaders] = React.useState({});
   const [auth, setAuth] = React.useState({});
   const [token, setToken] = React.useState(null);
+  const [maxRedirects, setMaxRedirects] = React.useState(5);
+
+  const [settings, setSettings] = React.useState([
+    {
+      p: "Enable SSL certificate verification",
+      s: "Verify SSL certificates when sending a request. Verification failures will result in the request being aborted.",
+      enable: false,
+    },
+    {
+      p: "Encode URL automatically",
+      s: "Encode the URL's path, query parameters, and authentication fields.",
+      enable: false,
+    },
+    {
+      p: "Disable cookie jar",
+      s: "Existing cookies in the cookie jar will not be added as headers for this request.",
+      enable: false,
+    },
+    {
+      p: "Decompress the response body",
+      s: "Indicates whether or not the response body should be decompressed",
+      enable: false,
+    },
+    {
+      p: "Maximum number of redirects",
+      s: "Set a cap on the maximum number of redirects to follow.",
+      enable: false,
+    },
+  ]);
 
   const [response, setResponse] = React.useState(false);
   const [rows, setRows] = React.useState([]);
@@ -45,12 +75,29 @@ export default function Layout() {
   const requestTheAddress = async () => {
     try {
       setLoading(true);
+      const httpsAgent = new https.Agent({
+        rejectUnauthorized: settings[0]["enable"],
+      });
+      let URL = url;
+
+      if (
+        settings[1]["enable"] &&
+        URL.substr(0, 7) != "http://" &&
+        URL.substr(0, 8) != "https://"
+      ) {
+        URL = "https://" + URL;
+      }
+
       await axios({
         method: method,
-        url: url + params,
+        url: URL + params,
         data: data,
         timeout: tout,
         headers: headers,
+        httpsAgent,
+        withCredentials: settings[2]["enable"],
+        decompress: settings[3]["enable"],
+        maxRedirects: maxRedirects,
       })
         .then((u) => {
           console.log("the response");
@@ -62,7 +109,7 @@ export default function Layout() {
         });
     } catch (err) {
       console.log("something went wrong");
-      console.log(err);
+      console.log(err.message);
     } finally {
       setLoading(false);
       setResponse(true);
@@ -357,6 +404,18 @@ export default function Layout() {
       console.log(headers);
     }
   };
+
+  const settingsHandler = (index) => {
+    const temp = settings;
+    temp[index]["enable"] = !temp[index]["enable"];
+
+    setSettings(temp);
+  };
+
+  const settingsHandler2 = (number) => {
+    setMaxRedirects(number);
+  };
+
   const timeOutHandler = (event) => {
     if (tout <= 0) {
       alert("Timeout should be greater than 0");
@@ -473,6 +532,10 @@ export default function Layout() {
           auth={auth}
           token={token}
           authHandler={authHandler}
+          settings={settings}
+          settingsHandler={settingsHandler}
+          settingsHandler2={settingsHandler2}
+          maxRedirects={maxRedirects}
         />
       </div>
 
