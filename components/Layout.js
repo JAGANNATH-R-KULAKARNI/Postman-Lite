@@ -32,12 +32,12 @@ export default function Layout() {
     {
       p: "Enable SSL certificate verification",
       s: "Verify SSL certificates when sending a request. Verification failures will result in the request being aborted.",
-      enable: false,
+      enable: true,
     },
     {
       p: "Encode URL automatically",
       s: "Encode the URL's path, query parameters, and authentication fields.",
-      enable: false,
+      enable: true,
     },
     {
       p: "Disable cookie jar",
@@ -52,7 +52,7 @@ export default function Layout() {
     {
       p: "Maximum number of redirects",
       s: "Set a cap on the maximum number of redirects to follow.",
-      enable: false,
+      enable: true,
     },
   ]);
 

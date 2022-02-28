@@ -9,6 +9,7 @@ import DataUI from "./Data";
 import HeadersUI from "./Headers";
 import AuthorizationUI from "./Authorization";
 import SettingUI from "./Settings";
+import CookiesUI from "./Cookies";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -172,7 +173,12 @@ export default function Services(props) {
           </div>
         </TabPanel>
         <TabPanel value={value} index={5}>
-          Cookies
+          <div style={{ marginTop: "-25px" }}>
+            <CookiesUI
+              settings={props.settings}
+              settingsHandler={handleStatusSettings}
+            />
+          </div>
         </TabPanel>
       </Box>
     </div>
