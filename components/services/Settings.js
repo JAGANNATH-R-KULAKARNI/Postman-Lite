@@ -1,19 +1,7 @@
 import * as React from "react";
-import Box from "@mui/material/Box";
-import ListItem from "@mui/material/ListItem";
-import ListItemButton from "@mui/material/ListItemButton";
-import ListItemText from "@mui/material/ListItemText";
-import { FixedSizeList } from "react-window";
 import Paper from "@mui/material/Paper";
 import Typography from "@mui/material/Typography";
-import List from "@mui/material/List";
-import ListItemIcon from "@mui/material/ListItemIcon";
-import ListSubheader from "@mui/material/ListSubheader";
 import Switch from "@mui/material/Switch";
-import WifiIcon from "@mui/icons-material/Wifi";
-import BluetoothIcon from "@mui/icons-material/Bluetooth";
-import SnackbarContent from "@mui/material/SnackbarContent";
-import Button from "@mui/material/Button";
 import MuiAlert from "@mui/material/Alert";
 import TextField from "@mui/material/TextField";
 

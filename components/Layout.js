@@ -128,7 +128,7 @@ export default function Layout(props) {
     setRowsD([]);
     setRowsH([]);
 
-    alert("All are set to default");
+    alert("Everthing is reset to default");
   };
   const requestTheAddress = async () => {
     try {

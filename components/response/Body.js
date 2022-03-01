@@ -1,5 +1,3 @@
-var data = { a: 1, b: 2 };
-
 const PrettyPrintJson = (props) => {
   return (
     <div style={{ overflow: "scroll", maxHeight: "500px", minHeight: "430px" }}>

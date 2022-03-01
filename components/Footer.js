@@ -1,17 +1,11 @@
 import React from "react";
 import Grid from "@mui/material/Grid";
-import * as c from "../utils/Colors";
 import styles from "../styles/Footer.module.css";
-import Link from "next/link";
 import LinkedInIcon from "@mui/icons-material/LinkedIn";
 import useMediaQuery from "@mui/material/useMediaQuery";
 
 function Footer() {
   const m1 = useMediaQuery("(min-width:430px)");
-  const m2 = useMediaQuery("(min-width:700px)");
-  const m3 = useMediaQuery("(min-width:1000px)");
-  const m4 = useMediaQuery("(min-width:1300px)");
-  const m5 = useMediaQuery("(min-width:1700px)");
 
   return (
     <div
@@ -99,6 +93,7 @@ function Footer() {
                     textDecoration: "none",
                     color: "black",
                   }}
+                  rel="noreferrer"
                 >
                   Jagannath R Kulakarni
                 </a>
@@ -123,6 +118,7 @@ function Footer() {
                   fontWeight: "lighter",
                   fontSize: m1 ? "15px" : "12px",
                 }}
+                rel="noreferrer"
               >
                 Copyright© Postman-Lite
               </a>
@@ -133,6 +129,7 @@ function Footer() {
                 passHref={true}
                 target="_blank"
                 style={{ textDecoration: "none", color: "#1976D2" }}
+                rel="noreferrer"
               >
                 <LinkedInIcon
                   style={{
