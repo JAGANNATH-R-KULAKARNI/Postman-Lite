@@ -8,6 +8,7 @@ import Tab from "@mui/material/Tab";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import BodyUI from "./Body";
+import CookiesUI from "./Cookies";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -70,7 +71,7 @@ export default function Records(props) {
           <Tab label="Body" {...a11yProps(0)} />
           <Tab label="Cookies" {...a11yProps(1)} />
           <Tab label="Headers" {...a11yProps(2)} />
-          <Tab label="Data" {...a11yProps(3)} />
+          <Tab label="Info" {...a11yProps(3)} />
         </Tabs>
       </AppBar>
       <SwipeableViews
@@ -82,7 +83,7 @@ export default function Records(props) {
           <BodyUI info={props.info} />
         </TabPanel>
         <TabPanel value={value} index={1} dir={theme.direction}>
-          Cookies
+          <CookiesUI cookieset={props.cookieset} cookief={props.cookief} />
         </TabPanel>
         <TabPanel value={value} index={2} dir={theme.direction}>
           Headers

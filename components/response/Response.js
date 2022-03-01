@@ -104,7 +104,11 @@ function SwipeableEdgeDrawer(props) {
         <br />
 
         <div style={{ width: "100%" }}>
-          <RecordUI info={props.info} />
+          <RecordUI
+            info={props.info}
+            cookief={props.cookief}
+            cookieset={props.cookieset}
+          />
         </div>
       </SwipeableDrawer>
     </Root>

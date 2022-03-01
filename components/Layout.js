@@ -29,6 +29,8 @@ export default function Layout(props) {
   const [maxRedirects, setMaxRedirects] = React.useState(5);
   const [resData, setResData] = React.useState(null);
   const [status, setStatus] = React.useState(-1);
+  const [cookief, setCookieF] = React.useState();
+  const [cookieset, setCookieSet] = React.useState(false);
 
   const [settings, setSettings] = React.useState([
     {
@@ -90,6 +92,8 @@ export default function Layout(props) {
         URL = "https://" + URL;
       }
 
+      let cookielen = document.cookie.length;
+
       await axios({
         method: method,
         url: URL + params,
@@ -106,13 +110,31 @@ export default function Layout(props) {
           console.log(u);
           setStatus(u["status"]);
           setResData(u);
+          if (document.cookie.length > cookielen) {
+            var refe = "";
+            console.log(document.cookie);
+            console.log(document.cookie.length);
+            let factor;
 
+            if (cookielen == 0) factor = 0;
+            else factor = 1;
+
+            cookielen = cookielen + factor;
+
+            for (var i = cookielen; i < document.cookie.length; i++) {
+              refe = refe + document.cookie[i];
+            }
+
+            setCookieF(refe);
+            setCookieSet(true);
+          } else setCookieSet(false);
           console.log(u["data"]);
         })
         .catch((err) => {
           setStatus(-1);
           console.log("error happened");
           console.log(err.message);
+          setCookieSet(false);
           return err;
         });
     } catch (err) {
@@ -554,6 +576,8 @@ export default function Layout(props) {
         timeTaken={props.timeTaken}
         info={resData}
         status={status}
+        cookief={cookief}
+        cookieset={cookieset}
       />
     </div>
   );
