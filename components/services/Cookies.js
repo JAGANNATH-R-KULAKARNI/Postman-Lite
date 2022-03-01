@@ -21,9 +21,10 @@ export default function Tokens(props) {
       1
     ).toUTCString()}`;
 
+    if (key.length > 0 && value.length > 0) alert("cookies has been set :)");
     setKey("");
     setValue("");
-    alert("cookies has been set :)");
+
     console.log(document.cookie);
   };
 

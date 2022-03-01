@@ -9,6 +9,8 @@ import Box from "@mui/material/Box";
 import Skeleton from "@mui/material/Skeleton";
 import Typography from "@mui/material/Typography";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
+import RecordUI from "./Records";
+import Infos from "./Infos";
 
 const drawerBleeding = 56;
 
@@ -52,7 +54,7 @@ function SwipeableEdgeDrawer(props) {
       <Global
         styles={{
           ".MuiDrawer-root > .MuiPaper-root": {
-            height: `calc(60% - ${drawerBleeding}px)`,
+            height: `calc(80% - ${drawerBleeding}px)`,
             overflow: "visible",
           },
         }}
@@ -82,19 +84,28 @@ function SwipeableEdgeDrawer(props) {
           }}
         >
           <Puller />
-          <h1 style={{ color: "#1976D2", textAlign: "center" }}> Response</h1>
+          <div style={{ display: "flex" }}>
+            <div
+              style={{
+                width: "100%",
+                display: "flex",
+                justifyContent: "center",
+                paddingTop: "25px",
+              }}
+            >
+              <Infos
+                status={props.status}
+                timeTaken={props.timeTaken}
+                size={props.size}
+              />
+            </div>
+          </div>
         </StyledBox>
         <br />
-        <StyledBox
-          sx={{
-            px: 2,
-            pb: 2,
-            height: "100%",
-            overflow: "auto",
-          }}
-        >
-          <Skeleton variant="rectangular" height="100%" />
-        </StyledBox>
+
+        <div style={{ width: "100%" }}>
+          <RecordUI info={props.info} />
+        </div>
       </SwipeableDrawer>
     </Root>
   );

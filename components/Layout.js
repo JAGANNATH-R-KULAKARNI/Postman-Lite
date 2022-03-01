@@ -7,7 +7,7 @@ import SendIcon from "@mui/icons-material/Send";
 import ServiceUI from "./services/Services";
 import axios from "axios";
 import CircularProgress from "@mui/material/CircularProgress";
-import ResponseUI from "./Response";
+import ResponseUI from "./response/Response";
 import ButtonGroup from "@mui/material/ButtonGroup";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import Tooltip from "@mui/material/Tooltip";
@@ -16,7 +16,7 @@ import Popper from "@mui/material/Popper";
 import Fade from "@mui/material/Fade";
 import https from "https";
 
-export default function Layout() {
+export default function Layout(props) {
   const [loading, setLoading] = React.useState(false);
   const [method, setMethod] = React.useState("get");
   const [url, setUrl] = React.useState("");
@@ -27,6 +27,8 @@ export default function Layout() {
   const [auth, setAuth] = React.useState({});
   const [token, setToken] = React.useState(null);
   const [maxRedirects, setMaxRedirects] = React.useState(5);
+  const [resData, setResData] = React.useState(null);
+  const [status, setStatus] = React.useState(-1);
 
   const [settings, setSettings] = React.useState([
     {
@@ -102,10 +104,16 @@ export default function Layout() {
         .then((u) => {
           console.log("the response");
           console.log(u);
+          setStatus(u["status"]);
+          setResData(u);
+
+          console.log(u["data"]);
         })
         .catch((err) => {
+          setStatus(-1);
           console.log("error happened");
           console.log(err.message);
+          return err;
         });
     } catch (err) {
       console.log("something went wrong");
@@ -539,7 +547,14 @@ export default function Layout() {
         />
       </div>
 
-      <ResponseUI response={response} setResponse={setResponse} />
+      <ResponseUI
+        response={response}
+        setResponse={setResponse}
+        size={props.size}
+        timeTaken={props.timeTaken}
+        info={resData}
+        status={status}
+      />
     </div>
   );
 }
