@@ -15,6 +15,8 @@ import Box from "@mui/material/Box";
 import Popper from "@mui/material/Popper";
 import Fade from "@mui/material/Fade";
 import https from "https";
+import RotateLeftIcon from "@mui/icons-material/RotateLeft";
+import Fab from "@mui/material/Fab";
 
 export default function Layout(props) {
   const [loading, setLoading] = React.useState(false);
@@ -29,8 +31,9 @@ export default function Layout(props) {
   const [maxRedirects, setMaxRedirects] = React.useState(5);
   const [resData, setResData] = React.useState(null);
   const [status, setStatus] = React.useState(-1);
-  const [cookief, setCookieF] = React.useState();
+  const [cookief, setCookieF] = React.useState(null);
   const [cookieset, setCookieSet] = React.useState(false);
+  const [resHeaders, setResHeaders] = React.useState([]);
 
   const [settings, setSettings] = React.useState([
     {
@@ -76,6 +79,57 @@ export default function Layout(props) {
   const canBeOpen = open && Boolean(anchorEl);
   const id = canBeOpen ? "transition-popper" : undefined;
 
+  const resetIt = () => {
+    setLoading(false);
+    setMethod("get");
+    setUrl("");
+    setParams("");
+    setTout(10000);
+    setData({});
+    setHeaders({});
+    setAuth({});
+    setToken(null);
+    setMaxRedirects(5);
+    setResData(null);
+    setStatus(-1);
+    setCookieF(null);
+    setCookieSet(false);
+    setResHeaders([]);
+    setSettings([
+      {
+        p: "Enable SSL certificate verification",
+        s: "Verify SSL certificates when sending a request. Verification failures will result in the request being aborted.",
+        enable: true,
+      },
+      {
+        p: "Encode URL automatically",
+        s: "Encode the URL's path, query parameters, and authentication fields.",
+        enable: true,
+      },
+      {
+        p: "Disable cookie jar",
+        s: "Existing cookies in the cookie jar will not be added as headers for this request.",
+        enable: false,
+      },
+      {
+        p: "Decompress the response body",
+        s: "Indicates whether or not the response body should be decompressed",
+        enable: false,
+      },
+      {
+        p: "Maximum number of redirects",
+        s: "Set a cap on the maximum number of redirects to follow.",
+        enable: true,
+      },
+    ]);
+
+    setResponse(false);
+    setRows([]);
+    setRowsD([]);
+    setRowsH([]);
+
+    alert("All are set to default");
+  };
   const requestTheAddress = async () => {
     try {
       setLoading(true);
@@ -128,6 +182,49 @@ export default function Layout(props) {
             setCookieF(refe);
             setCookieSet(true);
           } else setCookieSet(false);
+
+          setResHeaders([
+            {
+              key: <h2 style={{ color: "#1976D2" }}>Key</h2>,
+              value: <h2 style={{ color: "#1976D2" }}>Value</h2>,
+            },
+            {
+              key: "Date",
+              value: new Date().toUTCString(),
+            },
+            {
+              key: "Method",
+              value: u["config"]["method"],
+            },
+            {
+              key: "Timeout",
+              value: u["config"]["timeout"] + " ms",
+            },
+            {
+              key: "URL",
+              value: u["config"]["url"],
+            },
+            {
+              key: "Decompress",
+              value: u["config"]["decompress"] ? "True" : "False",
+            },
+            {
+              key: "With Credentials",
+              value: u["config"]["withCredentials"] ? "True" : "False",
+            },
+            {
+              key: "Content-Type",
+              value: u["headers"]["content-type"],
+            },
+            {
+              key: "Accept",
+              value: u["config"]["headers"]["Accept"],
+            },
+            {
+              key: "Cache-control",
+              value: u["headers"]["cache-control"],
+            },
+          ]);
           console.log(u["data"]);
         })
         .catch((err) => {
@@ -138,6 +235,7 @@ export default function Layout(props) {
           return err;
         });
     } catch (err) {
+      setStatus(-1);
       console.log("something went wrong");
       console.log(err.message);
     } finally {
@@ -456,15 +554,17 @@ export default function Layout(props) {
   };
   return (
     <div>
-      <h1
-        style={{
-          textAlign: "center",
-          fontSize: "70px",
-          color: "#1976D2",
-        }}
-      >
-        Postman Lite
-      </h1>
+      <div style={{ display: "flex", justifyContent: "center" }}>
+        <h1
+          style={{
+            textAlign: "center",
+            fontSize: "70px",
+            color: "#1976D2",
+          }}
+        >
+          Postman Lite
+        </h1>
+      </div>
 
       <div style={{ display: "flex", justifyContent: "center" }}>
         <div style={{ marginTop: "-8px" }}>
@@ -490,6 +590,7 @@ export default function Layout(props) {
             variant="contained"
             // ref={anchorRef}
             aria-label="split button"
+            disableElevation
           >
             <Tooltip title="Set Timeout" placement="top">
               <Button
@@ -540,6 +641,20 @@ export default function Layout(props) {
                 {loading ? "Requesting..." : "Send"}
               </Button>
             </Tooltip>
+            <div style={{ paddingLeft: "5px" }} onClick={resetIt}>
+              <Tooltip title="Reset">
+                <Fab
+                  color="primary"
+                  aria-label="add"
+                  style={{
+                    fontSize: "54px",
+                    maxHeight: "54px",
+                  }}
+                >
+                  <RotateLeftIcon />
+                </Fab>
+              </Tooltip>
+            </div>
           </ButtonGroup>
           <FormHelperText
             id="outlined-weight-helper-text"
@@ -578,6 +693,7 @@ export default function Layout(props) {
         status={status}
         cookief={cookief}
         cookieset={cookieset}
+        resHeaders={resHeaders}
       />
     </div>
   );

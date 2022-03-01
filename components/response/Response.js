@@ -72,44 +72,62 @@ function SwipeableEdgeDrawer(props) {
         //   keepMounted: true,
         // }}
       >
-        <StyledBox
-          sx={{
-            position: "absolute",
-            top: -drawerBleeding,
-            borderTopLeftRadius: 8,
-            borderTopRightRadius: 8,
-            visibility: "visible",
-            right: 0,
-            left: 0,
-          }}
-        >
-          <Puller />
-          <div style={{ display: "flex" }}>
-            <div
-              style={{
-                width: "100%",
-                display: "flex",
-                justifyContent: "center",
-                paddingTop: "25px",
+        {props.status != -1 ? (
+          <div>
+            <StyledBox
+              sx={{
+                position: "absolute",
+                top: -drawerBleeding,
+                borderTopLeftRadius: 8,
+                borderTopRightRadius: 8,
+                visibility: "visible",
+                right: 0,
+                left: 0,
               }}
             >
-              <Infos
-                status={props.status}
-                timeTaken={props.timeTaken}
-                size={props.size}
+              <Puller />
+              <div style={{ display: "flex" }}>
+                <div
+                  style={{
+                    width: "100%",
+                    display: "flex",
+                    justifyContent: "center",
+                    paddingTop: "25px",
+                  }}
+                >
+                  <Infos
+                    status={props.status}
+                    timeTaken={props.timeTaken}
+                    size={props.size}
+                  />
+                </div>
+              </div>
+            </StyledBox>
+            <br />
+
+            <div style={{ width: "100%" }}>
+              <RecordUI
+                info={props.info}
+                cookief={props.cookief}
+                cookieset={props.cookieset}
+                resHeaders={props.resHeaders}
               />
             </div>
           </div>
-        </StyledBox>
-        <br />
-
-        <div style={{ width: "100%" }}>
-          <RecordUI
-            info={props.info}
-            cookief={props.cookief}
-            cookieset={props.cookieset}
-          />
-        </div>
+        ) : (
+          <div style={{ display: "flex", justifyContent: "center" }}>
+            <div>
+              <h1 style={{ paddingTop: "20px", color: "#1976D2" }}>
+                Something Went Wrong, Check your Details!
+              </h1>
+              <img
+                src={"https://media.giphy.com/media/OiC5BKaPVLl60/giphy.gif"}
+                width="700px"
+                height="auto"
+              />
+            </div>
+          </div>
+        )}
       </SwipeableDrawer>
     </Root>
   );

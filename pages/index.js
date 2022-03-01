@@ -5,11 +5,14 @@ import LayoutUI from "../components/Layout";
 import React from "react";
 import axios from "axios";
 import prettyBytes from "pretty-bytes";
+import Footer from "../components/Footer";
+import Welcome from "../components/Welcome";
 
 export default function Home() {
-  let t = 0;
+  const [welcome, setWelcome] = React.useState(true);
   const [timeTaken, setTimeTaken] = React.useState(-1);
   const [size, setSize] = React.useState(0);
+  let t = 0;
 
   axios.interceptors.request.use((request) => {
     t = new Date().getTime();
@@ -36,7 +39,14 @@ export default function Home() {
 
   return (
     <div>
+      {welcome ? <Welcome setWelcome={setWelcome} /> : null}
       <LayoutUI timeTaken={timeTaken} size={size} />
+      <br />
+      <br />
+      <br />
+      <div style={{ paddingLeft: "90px" }}>
+        <Footer />
+      </div>
     </div>
   );
 }
